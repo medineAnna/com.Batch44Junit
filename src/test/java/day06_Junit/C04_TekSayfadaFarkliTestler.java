@@ -1,45 +1,76 @@
 package day06_Junit;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.time.Duration;
 
 public class C04_TekSayfadaFarkliTestler {
 
-    WebDriver driver;
+    static WebDriver driver;
+    static WebElement aramaKutusu;
+    static WebElement sonucYazisiElementi;
     @Test
     public void test01(){
-        //amazon sayfasindan Nutella icin arama yapip, sonuc yazisinin nutella icerdigini test edelim
+        // amazon sayfasinda nutella icin arama yapip sonuc yazisinin nutella icerdigini test edelim
+        aramaKutusu.sendKeys("nutella"+ Keys.ENTER);
+        sonucYazisiElementi=driver.findElement(By.xpath("//div[@class='a-section a-spacing-small a-spacing-top-small']"));
+        String actualSonucYazisi= sonucYazisiElementi.getText();
+        String arananKelime="nutella";
+        if (actualSonucYazisi.contains(arananKelime)){
+            System.out.println("Nutella testi PASSED");
+        }else {
+            System.out.println("Nutella testi FAILED");
+        }
     }
-
     @Test
     public void test02(){
-        //amazon sayfasinda java icin arama yapip sonuc yazisinin java icerdigini test edelim
-
+        // amazon sayfasinda java icin arama yapip sonuc yazisinin java icerdigini test edelim
+        aramaKutusu=driver.findElement(By.id("twotabsearchtextbox"));
+        aramaKutusu.clear();
+        aramaKutusu.sendKeys("java"+ Keys.ENTER);
+        sonucYazisiElementi=driver.findElement(By.xpath("//div[@class='a-section a-spacing-small a-spacing-top-small']"));
+        String actualSonucYazisi= sonucYazisiElementi.getText();
+        String arananKelime="java";
+        if (actualSonucYazisi.contains(arananKelime)){
+            System.out.println("Java testi PASSED");
+        }else {
+            System.out.println("Java testi FAILED");
+        }
     }
-
     @Test
     public void test03(){
-        //amazon sayfasibdab ali icin arama yapip sonuc yazisinin ali icerdigini test edelim
+        // amazon sayfasinda ali icin arama yapip sonuc yazisinin ali icerdigini test edelim
+        aramaKutusu=driver.findElement(By.id("twotabsearchtextbox"));
+        aramaKutusu.clear();
+        aramaKutusu.sendKeys("ali"+ Keys.ENTER);
+        sonucYazisiElementi=driver.findElement(By.xpath("//div[@class='a-section a-spacing-small a-spacing-top-small']"));
+        String actualSonucYazisi= sonucYazisiElementi.getText();
+        String arananKelime="ali";
+        if (actualSonucYazisi.contains(arananKelime)){
+            System.out.println("ali testi PASSED");
+        }else {
+            System.out.println("ali testi FAILED");
+        }
     }
-
-    @Before
-    public void ayarlarDuzenle(){
+    @BeforeClass
+    public static void ayarlariDuzenle(){
         WebDriverManager.chromedriver().setup();
-        WebDriver driver=new ChromeDriver();
+        driver=new ChromeDriver();
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
-
         driver.get("https://www.amazon.com");
+        aramaKutusu=driver.findElement(By.id("twotabsearchtextbox"));
     }
-
-    @After
-    public void ortaligiTopla(){
+    @AfterClass
+    public static void ortaligiTopla(){
         driver.close();
     }
 }
+
+
