@@ -13,17 +13,16 @@ import java.time.Duration;
 public class C02_RadioButton {
 
     WebDriver driver;
-
     @Before
     public void setup(){
         WebDriverManager.chromedriver().setup();
         driver=new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
         driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
     }
 
     @Test
-    public void Test01(){
+    public void test01(){
         //https://www.facebook.com adresine gidin
         driver.get("https://www.facebook.com");
         //Cookies’i kabul edin
@@ -31,12 +30,16 @@ public class C02_RadioButton {
         //“Create an Account” button’una basin
         driver.findElement(By.xpath("//a[text()='Create new account']")).click();
         //“radio buttons” elementlerini locate edin
+
+
         //Secili degilse cinsiyet butonundan size uygun olani secin
         driver.findElement(By.xpath("//input[@value='2']")).click();
     }
 
+
+
     @After
     public void teardown(){
-         driver.close();
+        driver.close();
     }
 }

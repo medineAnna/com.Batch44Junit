@@ -13,47 +13,52 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import java.time.Duration;
 
 public class C05_YouTubeAssertions {
-
-   static WebDriver driver;
+    //1) Bir class oluşturun: YoutubeAssertions
+    //2) https://www.youtube.com adresine gidin
+    //3) Aşağıdaki adları kullanarak 3 test metodu oluşturun ve gerekli testleri yapin
+    //    ○ titleTest   => Sayfa başlığının “YouTube” oldugunu test edin
+    //    ○ imageTest   => YouTube resminin görüntülendiğini (isDisplayed()) test edin
+    //    ○ Search Box 'in erisilebilir oldugunu test edin (isEnabled())
+    //    ○ wrongTitleTest  => Sayfa basliginin “youtube” olmadigini dogrulayin
+    static WebDriver driver;
     @BeforeClass
-    public void setup(){
+    public static void setUp() {
         WebDriverManager.chromedriver().setup();
         driver=new ChromeDriver();
-        driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
+        driver.manage().window().maximize();
+        //2) https://www.youtube.com adresine gidin
         driver.get("https://www.youtube.com");
-        driver.findElement(By.xpath(""));
-
+        driver.findElement(By.xpath("//tp-yt-paper-button[@aria-label='Agree to the use of cookies and other data for the purposes described']")).click();
     }
     @Test
-    public void titleTest(){
-        //    ○ titleTest   => Sayfa başlığının “YouTube” oldugunu test edin
-        String actualTitle= driver.getTitle();
-        String expectedTitle="YouTube";
-        // Assert.assertTrue(actualTitle.equals(expectedTitle));
-        Assert.assertEquals(actualTitle,expectedTitle);
+    public void titleTesting() {
+//    ○ titleTest   => Sayfa başlığının “YouTube” oldugunu test edin
+        String titleTest = driver.getTitle();
+        String actualTitle = "YouTube";
+        Assert.assertEquals(titleTest, actualTitle);
     }
     @Test
-    public void imageTest(){
-        //    ○ imageTest   => YouTube resminin görüntülendiğini (isDisplayed()) test edin
-        WebElement youtubeLogosu= driver.findElement(By.xpath("(//yt-icon[@id='logo-icon'])[2]"));
-        Assert.assertTrue(youtubeLogosu.isDisplayed());
+    public void imageTesting() {
+//    ○ imageTest   => YouTube resminin görüntülendiğini (isDisplayed()) test edin
+        WebElement imageElement=driver.findElement(By.xpath("(//yt-icon[@class='style-scope ytd-logo'])[1]"));
+        Assert.assertTrue("imageTesting FAILED",imageElement.isDisplayed());
     }
     @Test
-    public void searchBox(){
-        //     ○ searchBox 'in erisilebilir oldugunu test edin (isEnabled())
-        WebElement searchBox= driver.findElement(By.xpath("//input[@name='search_query']"));
-        Assert.assertTrue(searchBox.isEnabled());
+    public void searchBoxTesting() {
+//    ○ Search Box 'in erisilebilir oldugunu test edin (isEnabled())
+        WebElement searchBoxElement=driver.findElement(By.xpath("//input[@id='search']"));
+        Assert.assertTrue("searchBoxTesting FAILED",searchBoxElement.isEnabled());
     }
     @Test
-    public void wrongTitle(){
-        //    ○ wrongTitleTest  => Sayfa basliginin “youtube” olmadigini dogrulayin
-        String actualTitle= driver.getTitle();
-        String expectedTitle="YouTube";
-        Assert.assertEquals(actualTitle,expectedTitle);
+    public void wrongTitleTest() {
+//    ○ wrongTitleTest  => Sayfa basliginin “youtube” olmadigini dogrulayin
+        String actualYoutubeTitle=driver.getTitle();
+        String expectedYoutubeTitle="Youtube";
+        Assert.assertFalse("wrongTitleTest FAILED",actualYoutubeTitle.contains(expectedYoutubeTitle));
     }
     @AfterClass
-    public static void teardown(){
+    public static void tearDown() {
         driver.close();
     }
 }
