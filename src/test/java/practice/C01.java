@@ -11,53 +11,46 @@ import java.time.Duration;
 
 public class C01 {
     /*
-...Exercise1...
-BeforeClass ile driver ı olusturun ve class icinde static yapin
-Maximize edin, 15 sn bekletin
-http://www.google.com adresine gidin
-arama kutusuna "Green Mile" yazip, cikan sonuc sayisini yazdirin
-arama kutusuna  "Premonition" yazip, cikan sonuc sayisini yazdirin
-arama kutusuna  "The Curious Case of Benjamin Button" yazip, cikan sonuc sayisini yazdirin
-AfterClass ile kapatın
-
+    ...Exercise1...
+    BeforeClass ile driver ı olusturun ve class icinde static yapin
+    Maximize edin, 15 sn bekletin
+    http://www.google.com adresine gidin
+    arama kutusuna "Green Mile" yazip, cikan sonuc sayisini yazdirin
+    arama kutusuna  "Premonition" yazip, cikan sonuc sayisini yazdirin
+    arama kutusuna  "The Curious Case of Benjamin Button" yazip, cikan sonuc sayisini yazdirin
+    AfterClass ile kapatın
  */
     static WebDriver driver;
     @BeforeClass
     public static void setUp(){
         WebDriverManager.chromedriver().setup();
-        driver=new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
+        driver = new ChromeDriver();
         driver.manage().window().maximize();
-
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
     }
-
     @AfterClass
     public static void tearDown(){
-        //driver.close();
+        driver.close();
     }
-
     @Before
-    public void testOnce(){
+    public void testtenOnce(){
         driver.get("http://www.google.com");
+        driver.findElement(By.xpath("//div[text()='I agree']")).click();
     }
-
     @After
-    public void testSonra(){
+    public void testtenSonra(){
         System.out.println( "sonuc yazisi :" + (driver.findElement(By.xpath("//div[@id ='result-stats']")).getText()));
     }
-
     @Test
-    public void test01(){
+    public void test1(){
         driver.findElement(By.xpath("//input[@name='q']")).sendKeys("Green Mile" + Keys.ENTER);
     }
-
     @Test
-    public void test02(){
-        driver.findElement(By.xpath("//input[@name='q']")).sendKeys("Promonition" + Keys.ENTER);
+    public void test2(){
+        driver.findElement(By.xpath("//input[@name='q']")).sendKeys("Premonition" + Keys.ENTER);
     }
-
     @Test
-    public void test03(){
+    public void test3(){
         driver.findElement(By.xpath("//input[@name='q']")).sendKeys("The Curious Case of Benjamin Button" + Keys.ENTER);
     }
 }
